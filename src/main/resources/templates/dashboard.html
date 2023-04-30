@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/2057b59e4b.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript" th:inline="javascript" >
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Slices');
+            data.addRows([
+                /*[# th:each="row : ${topics}"]*/
+                [ /*[[${row.createAt}]]*/,[[${row.counts}]]],
+                /*[/]*/
+            ]);
+
+            var options = {
+                title: 'Topic chart by monthly'
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+            chart.draw(data, options);
+        }
+    </script>
+
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        google.charts.load('current', {'packages':['bar']});
+        google.charts.setOnLoadCallback(drawStuff);
+
+        function drawStuff() {
+            var data = new google.visualization.arrayToDataTable([
+                ['Create At', 'Counts '],
+                /*[# th:each="row : ${posts}"]*/
+                [ /*[[${row.createAt}]]*/,[[${row.counts}]]],
+                /*[/]*/
+
+            ]);
+
+            var options = {
+                width: 800,
+                legend: { position: 'none' },
+                chart: {
+                    title: ' Post',
+                    subtitle: 'Total number of posts in the month' },
+                axes: {
+                    x: {
+                        0: { side: 'top', label: 'White to move'} // Top x-axis.
+                    }
+                },
+                bar: { groupWidth: "90%" }
+            };
+
+            var chart = new google.charts.Bar(document.getElementById('top_x_div'));
+            // Convert the Classic options to Material options.
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        };
+        /*]]>*/
+    </script>
+    <div id="top_x_div" style="width: 300px; height: 200px;"></div>
+
+    <style>
+        /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+        .row.content {height: 1500px}
+
+        /* Set gray background color and 100% height */
+        .sidenav {
+            background-color: #f1f1f1;
+            height: 100%;
+        }
+
+        /* Set black background color, white text and some padding */
+        footer {
+            background-color: #555;
+            color: white;
+            padding: 15px;
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 767px) {
+            .sidenav {
+                height: auto;
+                padding: 15px;
+            }
+            .row.content {height: auto;}
+        }
+    </style>
+</head>
+<body>
+
+
+
+
+<div class="container-fluid">
+    <div class="row content">
+        <div class="col-sm-9">
+            <h4><small>Dashboard</small></h4>
+            <hr>
+            <div class="row">
+                <i class="fa-regular fa-user col-sm-4" style="color: #39db44;font-size: 60px;" th:text="${user.countUser}"></i>
+                <i class="fa-solid fa-i fa-heart-crack col-sm-4" style="color: #de1212;font-size: 60px" th:text="${item.countItem}"></i>
+                <i class="fa-solid fa-signs-post col-sm-4" style="color: #424abd; font-size: 60px" th:text="${category.countCategory}"></i>
+            </div><br>
+            <hr>
+            <div class="col-sm-12">
+                <div class="row" style="display: flex!important;">
+                    <div class="col-sm-6" id="piechart" style="width: 500px; height: 400px;"></div>
+                    <div class="col-sm-6" id="chart_div" style="width: 900px; height: 400px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="container-fluid">
+    <p>Footer Text</p>
+</footer>
+
+</body>
+</html>

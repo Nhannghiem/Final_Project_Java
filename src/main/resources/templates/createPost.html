@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>Create Post</title>
+    <link rel="stylesheet" href="/css/createIdea.css">
+    <script
+            src="https://code.jquery.com/jquery-3.6.4.min.js"
+            integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.tiny.cloud/1/ln0wumg9jtzen2hzxrt9vrn4eio1lbb7yhjqw6dez3wkckn3/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/ln0wumg9jtzen2hzxrt9vrn4eio1lbb7yhjqw6dez3wkckn3/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
+    <!-- Font Awesome -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+            rel="stylesheet"
+    />
+</head>
+<body>
+
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-lg-9 col-xl-7">
+                <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Create Post</h3>
+                        <form id="uploadFiles" name="uploadFiles" th:action="@{/create_post/(id=${#request.getParameter('id')})}" method="post" th:object="${post}" encType="multipart/form-data"   >
+
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+
+                                    <div class="form-outline">
+                                        <label class="form-label" for="title">Post Title </label>
+
+                                        <input style="background-color: #8fc4b7" name="title" type="text" id="title" class="form-control form-control-lg border"  />
+
+                                    </div>
+
+
+
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <h6 class="mb-2 pb-1"> File : </h6>
+                                    <div class="form-outline">
+                                        <input name="files" type="file" id="file" class="form-control form-control-lg" />
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="form-outline">
+                                <label class="form-label" for="title">Post Content </label>
+
+                                <!--                                        <input style="background-color: #8fc4b7" name="content" type="text" id="content" class="form-control form-control-lg border"  />-->
+                                <textarea th:field="*{content}" style="width:100%; height:600px"></textarea>
+                                <script>
+                                    tinymce.init({
+                                        selector: '#content',
+                                        plugins: 'link lists media image code',
+                                        toolbar: 'alignleft aligncenter alignright alignjustify | formatselect | bullist numlist | outdent indent | link image code',
+                                        toolbar_mode: 'floating',
+                                        images_upload_handler: function (blobInfo, success, failure) {
+                                            var token = $("meta[name='_csrf']").attr("content");
+                                            var header = $("meta[name='_csrf_header']").attr("content");
+                                            var xhr, formData;
+
+                                            xhr = new XMLHttpRequest();
+                                            xhr.withCredentials = false;
+                                            xhr.open('POST', '/upload/post/image');
+                                            xhr.setRequestHeader(header, token);
+                                            xhr.onload = function () {
+                                                var json;
+
+                                                if (xhr.status != 200) {
+                                                    failure('HTTP Error: ' + xhr.status);
+                                                    return;
+                                                }
+
+                                                json = xhr.responseText;
+                                                success(json);
+                                            };
+
+
+                                            formData = new FormData();
+                                            formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+                                            xhr.send(formData);
+                                        }
+                                    });
+                                </script>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-4 d-flex align-items-center">
+
+                                    <div class="form-outline datepicker w-100">
+                                        <!--                                        <input type="text" class="form-control form-control-lg" id="birthdayDate" />-->
+                                        <!--                                        <label for="birthdayDate" class="form-label">Birthday</label>-->
+                                    </div>
+
+                                </div>
+<!--                                <div class="col-md-6 mb-4">-->
+
+<!--                                    <h6 class="mb-2 pb-1">Anonymous User: </h6>-->
+
+<!--                                    <div class="form-check form-check-inline">-->
+<!--                                        <input class="form-check-input" type="checkbox" name="incognito" id="femaleGender"-->
+<!--                                               value="1" />-->
+<!--                                    </div>-->
+
+
+<!--                                </div>-->
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-4 pb-2">
+
+                                    <!--                                    <div class="form-outline">-->
+                                    <!--                                        <input type="email" id="emailAddress" class="form-control form-control-lg" />-->
+                                    <!--                                        <label class="form-label" for="emailAddress">Email</label>-->
+                                    <!--                                    </div>-->
+
+                                </div>
+                                <div class="col-md-6 mb-4 pb-2">
+
+                                    <!--                                    <div class="form-outline">-->
+                                    <!--                                        <input type="tel" id="phoneNumber" class="form-control form-control-lg" />-->
+                                    <!--                                        <label class="form-label" for="phoneNumber">Phone Number</label>-->
+                                    <!--                                    </div>-->
+
+                                </div>
+                            </div>
+
+
+                            <div class="mt-4 pt-2">
+                                <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

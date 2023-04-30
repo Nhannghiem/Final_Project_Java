@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Category</title>
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+            rel="stylesheet"
+    />
+</head>
+<body>
+
+<section class="vh-100 bg-image"
+         style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body p-5">
+                            <h2 class="text-uppercase text-center mb-5">Topic</h2>
+
+                            <form th:action="@{/edit_topic}" th:object="${topic}" method="post">
+                                <input id="id" hidden  th:field="*{id}"/>
+                                <input id="systemManagement" hidden  th:field="*{user}"/>
+                                <input id="category" hidden  th:field="*{category}"/>
+                                <input id="IsActive" hidden  th:field="*{IsActive}"/>
+                                <input id="creatAt" hidden  th:field="*{creatAt}"/>
+
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" >Topic Title</label>
+                                    <input id="content"  th:field="*{title}" type="text"class="form-control form-control-lg bo" />
+
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" >Topic Content</label>
+                                    <input  th:field="*{content}" type="text"class="form-control form-control-lg bo" />
+
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit"
+                                            class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Create</button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+</body>
+</html>
+
+</body>
+</html>
